@@ -5,7 +5,7 @@ export async function getNote(api, args) {
     const { brainId, thoughtId, format = 'markdown' } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const note = await api.getNote(brainId, thoughtId, format);
@@ -33,7 +33,7 @@ export async function createOrUpdateNote(api, args) {
     const { brainId, thoughtId, markdown } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     await api.createOrUpdateNote(brainId, thoughtId, markdown);
@@ -56,7 +56,7 @@ export async function appendToNote(api, args) {
     const { brainId, thoughtId, markdown } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     await api.appendToNote(brainId, thoughtId, markdown);

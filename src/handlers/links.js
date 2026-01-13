@@ -15,7 +15,7 @@ export async function createLink(api, args) {
     } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     // Create the basic link
@@ -78,7 +78,7 @@ export async function updateLink(api, args) {
     } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const updates = {};
@@ -112,7 +112,7 @@ export async function updateLink(api, args) {
 export async function getLink(api, { brainId, linkId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const link = await api.getLink(brainId, linkId);
@@ -151,7 +151,7 @@ export async function getLink(api, { brainId, linkId }) {
 export async function deleteLink(api, { brainId, linkId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     await api.deleteLink(brainId, linkId);

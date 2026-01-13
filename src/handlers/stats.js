@@ -3,7 +3,7 @@
 export async function getBrainStats(api, { brainId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const stats = await api.getBrainStats(brainId);
@@ -49,7 +49,7 @@ export async function getModifications(api, args) {
     const { brainId, maxLogs = 100, startTime, endTime } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const modifications = await api.getBrainModifications(brainId, {

@@ -7,7 +7,7 @@ export async function addFileAttachment(api, args) {
     const { brainId, thoughtId, filePath, fileName } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     // Verify file exists
@@ -46,7 +46,7 @@ export async function addUrlAttachment(api, args) {
     const { brainId, thoughtId, url, name } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     await api.addUrlAttachment(brainId, thoughtId, url, name);
@@ -71,7 +71,7 @@ export async function addUrlAttachment(api, args) {
 export async function getAttachment(api, { brainId, attachmentId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const attachment = await api.getAttachment(brainId, attachmentId);
@@ -109,7 +109,7 @@ export async function getAttachmentContent(api, args) {
     const { brainId, attachmentId, saveToPath } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const content = await api.getAttachmentContent(brainId, attachmentId);
@@ -144,7 +144,7 @@ export async function getAttachmentContent(api, args) {
 export async function deleteAttachment(api, { brainId, attachmentId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     await api.deleteAttachment(brainId, attachmentId);
@@ -164,7 +164,7 @@ export async function deleteAttachment(api, { brainId, attachmentId }) {
 export async function listAttachments(api, { brainId, thoughtId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const attachments = await api.listAttachments(brainId, thoughtId);

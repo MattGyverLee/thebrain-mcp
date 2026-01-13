@@ -122,7 +122,7 @@ export async function createThought(api, args) {
 export async function getThought(api, { brainId, thoughtId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const thought = await api.getThought(brainId, thoughtId);
@@ -168,7 +168,7 @@ export async function updateThought(api, args) {
     } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const updates = {};
@@ -200,7 +200,7 @@ export async function updateThought(api, args) {
 export async function deleteThought(api, { brainId, thoughtId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     await api.deleteThought(brainId, thoughtId);
@@ -227,7 +227,7 @@ export async function searchThoughts(api, args) {
     } = args;
 
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const results = await api.searchThoughts(
@@ -259,7 +259,7 @@ export async function searchThoughts(api, args) {
 export async function getThoughtGraph(api, { brainId, thoughtId, includeSiblings = false }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const graph = await api.getThoughtGraph(brainId, thoughtId, includeSiblings);
@@ -289,7 +289,7 @@ export async function getThoughtGraph(api, { brainId, thoughtId, includeSiblings
 export async function getTypes(api, { brainId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const types = await api.getTypes(brainId);
@@ -309,7 +309,7 @@ export async function getTypes(api, { brainId }) {
 export async function getTags(api, { brainId }) {
   try {
     if (!brainId) {
-      throw new Error('Brain ID is required');
+      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
     }
 
     const tags = await api.getTags(brainId);
