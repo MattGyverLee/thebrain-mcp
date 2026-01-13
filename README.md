@@ -42,9 +42,10 @@ The magic is that **you don't need to know any technical details** - just descri
 - **❌ Visual formatting**: All visual styling features are currently non-functional
 
 ### 🐛 **Other Known Issues**
-- **File path sensitivity**: Requires absolute file paths; relative paths may fail
 - **Memory constraints**: Very large file attachments (>50MB) can cause timeouts
 - **Search limitations**: Complex queries may return incomplete results (TheBrain API limitation)
+
+**Note on file paths**: Both absolute and relative paths are supported. Absolute paths are recommended for clarity in logs and error messages, but relative paths work correctly.
 
 ### 📋 **API Dependencies & Constraints**
 - **Single-user operations**: No real-time collaboration features
@@ -196,10 +197,9 @@ Claude: Finds all relevant thoughts and content
 ## 🔮 Roadmap & Future Development
 
 ### **Immediate Priorities (v1.2.0)**
-- **🚨 Fix visual styling**: Investigate why colors/thickness don't apply
-- **🔧 Connection stability**: Resolve MCP timing/race condition issues  
-- **📝 Long notes support**: Better handling of extensive markdown content
-- **🛡️ Error handling**: More graceful failures and recovery
+- **🚨 Fix visual styling**: Investigate why colors/thickness don't apply in TheBrain UI
+- **🛡️ Enhanced error handling**: More detailed error messages and recovery options
+- **📊 Performance monitoring**: Add timing metrics for large operations
 
 ### **Future Enhancements**
 - **Bulk operations** for large-scale organization
@@ -219,17 +219,17 @@ Claude: Finds all relevant thoughts and content
 ### Current Status
 - **Version**: 1.1.0 (June 2025)
 - **Core functionality**: ✅ Complete and working
-- **Visual properties**: ❌ Major issues need investigation
-- **Stability**: 🟡 Generally stable with intermittent connection issues
+- **Visual properties**: ❌ Major issues (TheBrain API accepts but doesn't apply colors/thickness)
+- **Stability**: ✅ Stable with proper error handling
 
 ## Contributing
 
 Contributions are welcome! Areas where help is especially needed:
 
-- **Visual styling investigation**: Why don't colors/thickness apply?
-- **Connection stability**: Debugging MCP race conditions
-- **Performance optimization**: Large brain handling
+- **Visual styling investigation**: Why don't colors/thickness apply in TheBrain UI?
+- **Performance optimization**: Large brain handling and bulk operations
 - **Documentation**: More usage examples and tutorials
+- **Testing**: Expanded test coverage for edge cases
 
 Please feel free to submit issues or pull requests.
 
