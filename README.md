@@ -43,13 +43,17 @@ The magic is that **you don't need to know any technical details** - just descri
 
 ### 🐛 **Other Known Issues**
 - **Memory constraints**: Very large file attachments (>50MB) can cause timeouts
-- **Search limitations**: Complex queries may return incomplete results (TheBrain API limitation)
 
 **Note on file paths**: Both absolute and relative paths are supported. Absolute paths are recommended for clarity in logs and error messages, but relative paths work correctly.
 
 ### 📋 **API Dependencies & Constraints**
+- **No pagination support**: TheBrain API lacks offset/cursor pagination
+  - `search_thoughts`: Limited by `maxResults` parameter (default: 30, max: likely 1000)
+  - `get_modifications`: Limited by `maxLogs` parameter (default: 100)
+  - Cannot retrieve results beyond the first page - increase limits to get more data
+  - Searches with many results will be truncated; refine queries for better targeting
 - **Single-user operations**: No real-time collaboration features
-- **No bulk operations**: Can't import/export large datasets efficiently  
+- **No bulk operations**: Can't import/export large datasets efficiently
 - **API connectivity required**: No offline mode available
 - **TheBrain API limitations**: Bound by existing API capabilities
 - **Authentication required**: Must have valid TheBrain API key

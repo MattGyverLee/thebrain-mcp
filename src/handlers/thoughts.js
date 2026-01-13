@@ -237,9 +237,10 @@ export async function searchThoughts(api, args) {
       onlySearchThoughtNames
     );
 
-    return {
+    const response = {
       success: true,
       count: results.length,
+      maxResults,
       results: results.map(result => ({
         thoughtId: result.sourceThought?.id,
         name: result.name || result.sourceThought?.name,
@@ -248,6 +249,13 @@ export async function searchThoughts(api, args) {
         attachmentId: result.attachmentId,
       })),
     };
+
+    // Warn if results may be truncated
+    if (results.length === maxResults) {
+      response.warning = `Results may be truncated. Received exactly ${maxResults} results (the maximum requested). More results may exist - try refining your query or increasing maxResults.`;
+    }
+
+    return response;
   } catch (error) {
     return {
       success: false,

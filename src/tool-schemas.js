@@ -397,7 +397,7 @@ export const toolSchemas = {
   // Search Operations
   search_thoughts: {
     name: 'search_thoughts',
-    description: 'Search for thoughts in a brain',
+    description: 'Search for thoughts in a brain. Note: TheBrain API does not support pagination - results beyond maxResults cannot be retrieved.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -411,7 +411,7 @@ export const toolSchemas = {
         },
         maxResults: {
           type: 'number',
-          description: 'Maximum number of results',
+          description: 'Maximum number of results (default: 30). This is a hard limit - results beyond this cannot be retrieved. Increase this value or refine your query if results are truncated.',
           default: 30,
         },
         onlySearchThoughtNames: {
@@ -629,7 +629,7 @@ export const toolSchemas = {
 
   get_modifications: {
     name: 'get_modifications',
-    description: 'Get modification history for a brain',
+    description: 'Get modification history for a brain. Note: TheBrain API does not support pagination - logs beyond maxLogs cannot be retrieved.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -639,7 +639,7 @@ export const toolSchemas = {
         },
         maxLogs: {
           type: 'number',
-          description: 'Maximum number of logs to return',
+          description: 'Maximum number of logs to return (default: 100). This is a hard limit - older logs beyond this cannot be retrieved. Use startTime/endTime to filter or increase maxLogs for more history.',
           default: 100,
         },
         startTime: {

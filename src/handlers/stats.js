@@ -57,10 +57,11 @@ export async function getModifications(api, args) {
       startTime,
       endTime,
     });
-    
-    return {
+
+    const response = {
       success: true,
       count: modifications.length,
+      maxLogs,
       modifications: modifications.map(mod => ({
         sourceId: mod.sourceId,
         sourceType: mod.sourceType,
@@ -76,6 +77,13 @@ export async function getModifications(api, args) {
         extraBId: mod.extraBId,
       })),
     };
+
+    // Warn if results may be truncated
+    if (modifications.length === maxLogs) {
+      response.warning = `Results may be truncated. Received exactly ${maxLogs} modification logs (the maximum requested). More logs may exist - try using startTime/endTime filters to narrow the range or increasing maxLogs.`;
+    }
+
+    return response;
   } catch (error) {
     return {
       success: false,
