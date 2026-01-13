@@ -68,7 +68,7 @@ Until visual styling is fixed, use these alternatives:
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/redmorestudio/thebrain-mcp.git
+git clone https://github.com/MattGyverLee/thebrain-mcp.git
 cd thebrain-mcp
 ```
 
@@ -248,7 +248,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## Support
 
 - **TheBrain API Documentation**: https://api.bra.in
-- **Issues & Bug Reports**: https://github.com/redmorestudio/thebrain-mcp/issues
+- **Issues & Bug Reports**: https://github.com/MattGyverLee/thebrain-mcp/issues
 - **Questions**: Open a GitHub discussion
 
 ---
