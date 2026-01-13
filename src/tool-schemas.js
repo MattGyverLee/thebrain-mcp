@@ -565,7 +565,7 @@ export const toolSchemas = {
 
   list_attachments: {
     name: 'list_attachments',
-    description: 'List all attachments for a thought',
+    description: 'List all attachments for a thought. Note: TheBrain API returns all attachments with no pagination support.',
     inputSchema: {
       type: 'object',
       properties: {

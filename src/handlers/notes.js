@@ -1,12 +1,14 @@
 // src/handlers/notes.js
+import {
+  requireBrainId,
+  createErrorResponse,
+} from '../validation.js';
 
 export async function getNote(api, args) {
   try {
     const { brainId, thoughtId, format = 'markdown' } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const note = await api.getNote(brainId, thoughtId, format);
     
@@ -21,10 +23,7 @@ export async function getNote(api, args) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'getNote');
   }
 }
 
@@ -32,9 +31,7 @@ export async function createOrUpdateNote(api, args) {
   try {
     const { brainId, thoughtId, markdown } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     await api.createOrUpdateNote(brainId, thoughtId, markdown);
     
@@ -44,10 +41,7 @@ export async function createOrUpdateNote(api, args) {
       thoughtId,
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'createOrUpdateNote');
   }
 }
 
@@ -55,9 +49,7 @@ export async function appendToNote(api, args) {
   try {
     const { brainId, thoughtId, markdown } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     await api.appendToNote(brainId, thoughtId, markdown);
     
@@ -67,9 +59,6 @@ export async function appendToNote(api, args) {
       thoughtId,
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'appendToNote');
   }
 }

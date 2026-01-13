@@ -1,4 +1,10 @@
 // src/handlers/links.js
+import {
+  requireBrainId,
+  validateColor,
+  validateThickness,
+  createErrorResponse,
+} from '../validation.js';
 
 export async function createLink(api, args) {
   try {
@@ -14,9 +20,10 @@ export async function createLink(api, args) {
       typeId,
     } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    // Validate inputs
+    requireBrainId(brainId);
+    validateColor(color, 'link color');
+    validateThickness(thickness);
 
     // Create the basic link
     const linkData = {
@@ -31,13 +38,13 @@ export async function createLink(api, args) {
     const linkId = result.id;
 
     // Apply visual properties if provided
-    if (color || thickness || direction || typeId) {
+    if (color || thickness !== undefined || direction !== undefined || typeId) {
       const updates = {};
       if (color) updates.color = color;
       if (thickness !== undefined) updates.thickness = thickness;
       if (direction !== undefined) updates.direction = direction;
       if (typeId) updates.typeId = typeId;
-      
+
       await api.updateLink(brainId, linkId, updates);
     }
 
@@ -58,10 +65,7 @@ export async function createLink(api, args) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error);
   }
 }
 
@@ -77,9 +81,7 @@ export async function updateLink(api, args) {
       relation,
     } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const updates = {};
     
@@ -102,18 +104,13 @@ export async function updateLink(api, args) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error);
   }
 }
 
 export async function getLink(api, { brainId, linkId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const link = await api.getLink(brainId, linkId);
     
@@ -141,18 +138,13 @@ export async function getLink(api, { brainId, linkId }) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error);
   }
 }
 
 export async function deleteLink(api, { brainId, linkId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     await api.deleteLink(brainId, linkId);
     
@@ -161,10 +153,7 @@ export async function deleteLink(api, { brainId, linkId }) {
       message: `Link ${linkId} deleted successfully`,
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error);
   }
 }
 

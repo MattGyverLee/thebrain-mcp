@@ -1,43 +1,46 @@
 // src/handlers/attachments.js
 import fs from 'fs/promises';
 import path from 'path';
+import {
+  requireBrainId,
+  validateUrl,
+  validateFilePath,
+  createErrorResponse,
+} from '../validation.js';
 
 export async function addFileAttachment(api, args) {
   try {
     const { brainId, thoughtId, filePath, fileName } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    // Validate inputs
+    requireBrainId(brainId);
+    const validatedPath = validateFilePath(filePath);
 
     // Verify file exists
     try {
-      await fs.access(filePath);
+      await fs.access(validatedPath);
     } catch (error) {
-      throw new Error(`File not found: ${filePath}`);
+      throw new Error(`File not found: ${validatedPath}`);
     }
 
     // Get file info
-    const stats = await fs.stat(filePath);
-    const actualFileName = fileName || path.basename(filePath);
+    const stats = await fs.stat(validatedPath);
+    const actualFileName = fileName || path.basename(validatedPath);
 
-    await api.addFileAttachment(brainId, thoughtId, filePath, actualFileName);
+    await api.addFileAttachment(brainId, thoughtId, validatedPath, actualFileName);
 
     return {
       success: true,
       message: `File '${actualFileName}' attached to thought ${thoughtId}`,
       attachment: {
         fileName: actualFileName,
-        filePath,
+        filePath: validatedPath,
         size: stats.size,
         thoughtId,
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'addFileAttachment');
   }
 }
 
@@ -45,9 +48,9 @@ export async function addUrlAttachment(api, args) {
   try {
     const { brainId, thoughtId, url, name } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    // Validate inputs
+    requireBrainId(brainId);
+    validateUrl(url);
 
     await api.addUrlAttachment(brainId, thoughtId, url, name);
 
@@ -61,18 +64,13 @@ export async function addUrlAttachment(api, args) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'addUrlAttachment');
   }
 }
 
 export async function getAttachment(api, { brainId, attachmentId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const attachment = await api.getAttachment(brainId, attachmentId);
     
@@ -97,10 +95,7 @@ export async function getAttachment(api, { brainId, attachmentId }) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error);
   }
 }
 
@@ -108,9 +103,7 @@ export async function getAttachmentContent(api, args) {
   try {
     const { brainId, attachmentId, saveToPath } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const content = await api.getAttachmentContent(brainId, attachmentId);
     
@@ -134,18 +127,13 @@ export async function getAttachmentContent(api, args) {
       };
     }
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error);
   }
 }
 
 export async function deleteAttachment(api, { brainId, attachmentId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     await api.deleteAttachment(brainId, attachmentId);
     
@@ -154,18 +142,13 @@ export async function deleteAttachment(api, { brainId, attachmentId }) {
       message: `Attachment ${attachmentId} deleted successfully`,
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error);
   }
 }
 
 export async function listAttachments(api, { brainId, thoughtId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const attachments = await api.listAttachments(brainId, thoughtId);
     
@@ -184,10 +167,7 @@ export async function listAttachments(api, { brainId, thoughtId }) {
       })),
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error);
   }
 }
 

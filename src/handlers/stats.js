@@ -1,10 +1,12 @@
 // src/handlers/stats.js
+import {
+  requireBrainId,
+  createErrorResponse,
+} from '../validation.js';
 
 export async function getBrainStats(api, { brainId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const stats = await api.getBrainStats(brainId);
     
@@ -37,10 +39,7 @@ export async function getBrainStats(api, { brainId }) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'getBrainStats');
   }
 }
 
@@ -48,9 +47,7 @@ export async function getModifications(api, args) {
   try {
     const { brainId, maxLogs = 100, startTime, endTime } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const modifications = await api.getBrainModifications(brainId, {
       maxLogs,
@@ -85,10 +82,7 @@ export async function getModifications(api, args) {
 
     return response;
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'getModifications');
   }
 }
 

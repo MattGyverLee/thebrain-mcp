@@ -1,4 +1,9 @@
 // src/handlers/thoughts.js
+import {
+  requireBrainId,
+  validateColor,
+  createErrorResponse,
+} from '../validation.js';
 
 export async function listBrains(api) {
   try {
@@ -12,10 +17,7 @@ export async function listBrains(api) {
       })),
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'listBrains');
   }
 }
 
@@ -31,10 +33,7 @@ export async function getBrain(api, { brainId }) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'getBrain');
   }
 }
 
@@ -47,10 +46,7 @@ export async function setActiveBrain(api, { brainId }) {
       message: `Active brain set to ${brainId}`,
     };
   } catch (error) {
-    return {
-      success: false,
-      error: `Failed to set active brain: ${error.message}`,
-    };
+    return createErrorResponse(error, 'setActiveBrain');
   }
 }
 
@@ -69,9 +65,9 @@ export async function createThought(api, args) {
       acType = 0, // Default to Public
     } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
+    validateColor(foregroundColor, 'foregroundColor');
+    validateColor(backgroundColor, 'backgroundColor');
 
     const thoughtData = {
       name,
@@ -112,18 +108,13 @@ export async function createThought(api, args) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'createThought');
   }
 }
 
 export async function getThought(api, { brainId, thoughtId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const thought = await api.getThought(brainId, thoughtId);
     
@@ -146,10 +137,7 @@ export async function getThought(api, { brainId, thoughtId }) {
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'getThought');
   }
 }
 
@@ -167,9 +155,9 @@ export async function updateThought(api, args) {
       typeId,
     } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
+    validateColor(foregroundColor, 'foregroundColor');
+    validateColor(backgroundColor, 'backgroundColor');
 
     const updates = {};
     
@@ -190,18 +178,13 @@ export async function updateThought(api, args) {
       updates,
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'updateThought');
   }
 }
 
 export async function deleteThought(api, { brainId, thoughtId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     await api.deleteThought(brainId, thoughtId);
     
@@ -210,10 +193,7 @@ export async function deleteThought(api, { brainId, thoughtId }) {
       message: `Thought ${thoughtId} deleted successfully`,
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'deleteThought');
   }
 }
 
@@ -226,9 +206,7 @@ export async function searchThoughts(api, args) {
       onlySearchThoughtNames = false,
     } = args;
 
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const results = await api.searchThoughts(
       brainId,
@@ -257,18 +235,13 @@ export async function searchThoughts(api, args) {
 
     return response;
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'searchThoughts');
   }
 }
 
 export async function getThoughtGraph(api, { brainId, thoughtId, includeSiblings = false }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const graph = await api.getThoughtGraph(brainId, thoughtId, includeSiblings);
     
@@ -287,18 +260,13 @@ export async function getThoughtGraph(api, { brainId, thoughtId, includeSiblings
       },
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'getThoughtGraph');
   }
 }
 
 export async function getTypes(api, { brainId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const types = await api.getTypes(brainId);
     
@@ -307,18 +275,13 @@ export async function getTypes(api, { brainId }) {
       types: types.map(formatThought),
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'getTypes');
   }
 }
 
 export async function getTags(api, { brainId }) {
   try {
-    if (!brainId) {
-      throw new Error('Brain ID is required. Use set_active_brain first or provide brainId.');
-    }
+    requireBrainId(brainId);
 
     const tags = await api.getTags(brainId);
     
@@ -327,10 +290,7 @@ export async function getTags(api, { brainId }) {
       tags: tags.map(formatThought),
     };
   } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    };
+    return createErrorResponse(error, 'getTags');
   }
 }
 
