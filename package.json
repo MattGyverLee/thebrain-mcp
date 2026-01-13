@@ -1,6 +1,6 @@
 {
   "name": "thebrain-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server for TheBrain API - enables AI assistants to interact with TheBrain knowledge management system",
   "main": "index.js",
   "type": "module",

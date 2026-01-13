@@ -29,7 +29,7 @@ const api = new TheBrainAPI(API_KEY);
 const server = new Server(
   {
     name: 'thebrain-mcp',
-    version: '1.0.0',
+    version: '1.1.0',
   },
   {
     capabilities: {
