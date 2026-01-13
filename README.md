@@ -42,12 +42,9 @@ The magic is that **you don't need to know any technical details** - just descri
 - **❌ Visual formatting**: All visual styling features are currently non-functional
 
 ### 🐛 **Other Known Issues**
-- **Intermittent connection problems**: "Field required" errors after successful operations
-- **Long notes limitations**: Issues with very long markdown content (keep under 10k characters)
-- **File path sensitivity**: Requires absolute file paths; relative paths can fail
-- **Connection timing**: MCP initialization race condition causing sporadic failures
-- **Memory constraints**: Large file attachments can cause timeouts
-- **Search limitations**: Complex queries sometimes return incomplete results
+- **File path sensitivity**: Requires absolute file paths; relative paths may fail
+- **Memory constraints**: Very large file attachments (>50MB) can cause timeouts
+- **Search limitations**: Complex queries may return incomplete results (TheBrain API limitation)
 
 ### 📋 **API Dependencies & Constraints**
 - **Single-user operations**: No real-time collaboration features
@@ -109,20 +106,15 @@ Add to your Claude Desktop configuration:
 
 ### Common Issues & Solutions
 
-**"Field required" errors**:
-- Restart Claude Desktop
-- Verify `.env` file has correct API key
-- Always set active brain first: "Set my active brain to [name]"
+**Brain ID errors**:
+- Use `set_active_brain` to set a default brain context
+- Or provide `brainId` parameter with each operation
+- Error messages will guide you if brainId is missing
 
 **File upload failures**:
 - Use absolute file paths: `/Users/username/Documents/file.pdf`
 - Check file permissions and existence
-- Keep file sizes reasonable (< 50MB)
-
-**Long note problems**:
-- Keep notes under 10,000 characters
-- Break large content into multiple thoughts
-- Use attachments for lengthy documents
+- Keep file sizes reasonable (< 50MB for best performance)
 
 **Debug mode**:
 ```bash
